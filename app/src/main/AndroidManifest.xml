@@ -17,6 +17,20 @@
         android:theme="@style/Theme.IronXpertAdmin"
         tools:targetApi="31">
         <activity
+            android:name=".ServiceItemActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ServiceItemDetailActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".AccountDetailsActivity"
             android:exported="false">
             <meta-data
@@ -47,9 +61,6 @@
             android:exported="false" />
         <activity
             android:name=".ToppingActivity"
-            android:exported="false" />
-        <activity
-            android:name=".FoodActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

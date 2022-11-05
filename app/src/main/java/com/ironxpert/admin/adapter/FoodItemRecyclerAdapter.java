@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.ironxpert.admin.FoodActivity;
 import com.ironxpert.admin.R;
 import com.ironxpert.admin.models.Food;
 
@@ -43,10 +42,10 @@ public class FoodItemRecyclerAdapter extends FirestoreRecyclerAdapter<Food, Food
         holder.setRating(model.getRating());
 
         holder.itemView.setOnClickListener(view -> {
-            Intent intent = new Intent(view.getContext(), FoodActivity.class);
-            intent.putExtra("FOOD", model);
-            intent.putExtra("NEW", false);
-            view.getContext().startActivity(intent);
+//            Intent intent = new Intent(view.getContext(), FoodActivity.class);
+//            intent.putExtra("FOOD", model);
+//            intent.putExtra("NEW", false);
+//            view.getContext().startActivity(intent);
         });
     }
 

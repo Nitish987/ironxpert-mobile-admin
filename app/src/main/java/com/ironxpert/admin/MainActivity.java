@@ -12,7 +12,7 @@ import com.ironxpert.admin.common.auth.Auth;
 import com.ironxpert.admin.common.db.Database;
 import com.ironxpert.admin.models.User;
 import com.ironxpert.admin.tabs.DispatcherFragment;
-import com.ironxpert.admin.tabs.FoodsFragment;
+import com.ironxpert.admin.tabs.ServiceFragment;
 import com.ironxpert.admin.tabs.OrdersFragment;
 import com.ironxpert.admin.tabs.ProfileFragment;
 import com.ironxpert.admin.tabs.ToppingsFragment;
@@ -54,8 +54,8 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.orders:
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new OrdersFragment()).commit();
                     break;
-                case R.id.foods:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FoodsFragment()).commit();
+                case R.id.services:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ServiceFragment()).commit();
                     break;
                 case R.id.toppings:
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ToppingsFragment()).commit();
