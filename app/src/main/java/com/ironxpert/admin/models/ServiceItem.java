@@ -11,8 +11,11 @@ public class ServiceItem implements Serializable {
     private String name;
     private String photo;
     private int price;
+    private int service;
 
-    public ServiceItem(boolean available, String by, String category, int discount, String id, String name, String photo, int price) {
+    public ServiceItem() {}
+
+    public ServiceItem(boolean available, String by, String category, int discount, String id, String name, String photo, int price, int service) {
         this.available = available;
         this.by = by;
         this.category = category;
@@ -21,6 +24,7 @@ public class ServiceItem implements Serializable {
         this.name = name;
         this.photo = photo;
         this.price = price;
+        this.service = service;
     }
 
     public boolean isAvailable() {
@@ -85,5 +89,13 @@ public class ServiceItem implements Serializable {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public int getService() {
+        return service;
+    }
+
+    public void setService(int service) {
+        this.service = service;
     }
 }

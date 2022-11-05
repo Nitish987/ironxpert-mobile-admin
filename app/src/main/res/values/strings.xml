@@ -108,6 +108,7 @@
     <string name="category">Category</string>
     <string name="delete_service_item">Delete Service Item</string>
     <string name="item_available">Item Available</string>
+    <string name="service">Service</string>
     <string-array name="category_entries">
         <item>Apparels</item>
         <item>Linens</item>

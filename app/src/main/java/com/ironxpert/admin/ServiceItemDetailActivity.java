@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -17,15 +18,17 @@ import android.widget.Toast;
 import com.google.firebase.firestore.CollectionReference;
 import com.ironxpert.admin.common.auth.Auth;
 import com.ironxpert.admin.common.db.Database;
+import com.ironxpert.admin.common.db.LaunderingService;
 import com.ironxpert.admin.models.ServiceItem;
 import com.ironxpert.admin.utils.Validator;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ServiceItemDetailActivity extends AppCompatActivity {
     private EditText eItemName, ePrice, eDiscount;
-    private Spinner sCategory, sItemAvailable;
+    private Spinner sCategory, sItemAvailable, sService;
     private TextView tPayablePrice;
     private AppCompatButton bSave;
     private ImageButton bDelete, bClose;
@@ -40,6 +43,7 @@ public class ServiceItemDetailActivity extends AppCompatActivity {
 
         item = (ServiceItem) getIntent().getSerializableExtra("ITEM");
         NEW = getIntent().getBooleanExtra("NEW", false);
+        List<String> serviceList = LaunderingService.getServiceNameList();
 
         eItemName = findViewById(R.id.item_name);
         ePrice = findViewById(R.id.price);
@@ -50,6 +54,10 @@ public class ServiceItemDetailActivity extends AppCompatActivity {
         bSave = findViewById(R.id.save_btn);
         bDelete = findViewById(R.id.delete);
         bClose = findViewById(R.id.close);
+        sService = findViewById(R.id.service);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, serviceList);
+        sService.setAdapter(adapter);
     }
 
     @Override
@@ -69,6 +77,8 @@ public class ServiceItemDetailActivity extends AppCompatActivity {
             case "Shoe Laundry": sCategory.setSelection(6); break;
             case "Carpet Care": sCategory.setSelection(7); break;
         }
+
+        sService.setSelection(item.getService());
 
         if (item.isAvailable()) sItemAvailable.setSelection(0);
         else sCategory.setSelection(1);
@@ -130,7 +140,8 @@ public class ServiceItemDetailActivity extends AppCompatActivity {
                         reference.getId(),
                         eItemName.getText().toString(),
                         null,
-                        Integer.parseInt(ePrice.getText().toString())
+                        Integer.parseInt(ePrice.getText().toString()),
+                        sService.getSelectedItemPosition()
                 );
                 reference.document(reference.getId()).set(item).addOnSuccessListener(unused -> {
                     Toast.makeText(this, "Item Added.", Toast.LENGTH_SHORT).show();
@@ -149,6 +160,7 @@ public class ServiceItemDetailActivity extends AppCompatActivity {
                 map.put("name", eItemName.getText().toString());
                 map.put("photo", null);
                 map.put("price", Integer.parseInt(ePrice.getText().toString()));
+                map.put("service", sService.getSelectedItemPosition());
 
                 reference.document(this.item.getId()).update(map).addOnSuccessListener(unused -> {
                     Toast.makeText(this, "Item Updated.", Toast.LENGTH_SHORT).show();

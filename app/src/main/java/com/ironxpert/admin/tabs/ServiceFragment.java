@@ -53,7 +53,7 @@ public class ServiceFragment extends Fragment {
 
         addServiceItemBtn.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), ServiceItemDetailActivity.class);
-            ServiceItem item = new ServiceItem(true, "", "", 0,"", "","",0);
+            ServiceItem item = new ServiceItem(true, "", "", 0,"", "","",0,0);
             intent.putExtra("ITEM", item);
             intent.putExtra("NEW", true);
             startActivity(intent);

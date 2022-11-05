@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FoodActivity"
+    tools:context=".ServiceItemDetailActivity"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -87,6 +87,20 @@
                 android:background="@drawable/border_block"
                 android:layout_marginTop="5dp"
                 android:entries="@array/category_entries"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/service"/>
+
+            <Spinner
+                android:id="@+id/service"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:padding="10dp"
+                android:background="@drawable/border_block"
+                android:layout_marginTop="5dp" />
 
             <TextView
                 android:layout_width="match_parent"
