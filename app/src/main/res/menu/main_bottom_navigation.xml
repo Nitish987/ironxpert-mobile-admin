@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/orders"
+        android:icon="@drawable/ic_baseline_receipt_long_24"
+        android:title="@string/orders" />
+    <item
+        android:id="@+id/foods"
+        android:icon="@drawable/ic_baseline_fastfood_24"
+        android:title="@string/foods" />
+    <item
+        android:id="@+id/toppings"
+        android:icon="@drawable/ic_baseline_emoji_food_beverage_24"
+        android:title="@string/toppings" />
+    <item
+        android:id="@+id/dispatchers"
+        android:icon="@drawable/ic_baseline_delivery_dining_24"
+        android:title="@string/dispatcher" />
+    <item
+        android:id="@+id/profile"
+        android:icon="@drawable/ic_outline_account_circle_24"
+        android:title="@string/profile" />
+</menu>
