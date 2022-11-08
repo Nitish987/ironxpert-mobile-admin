@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.ironxpert.admin.common.auth.Auth;
 import com.ironxpert.admin.common.db.Database;
 import com.ironxpert.admin.common.db.LaunderingService;
@@ -133,18 +134,20 @@ public class ServiceItemDetailActivity extends AppCompatActivity {
             CollectionReference reference = Database.getInstance().collection("shop").document(LaunderingService.SHOP).collection("items");
 
             if (NEW) {
+                DocumentReference documentReference = reference.document();
+
                 ServiceItem item = new ServiceItem(
                         sItemAvailable.getSelectedItemPosition() == 0,
                         Auth.getAuthUserUid(),
                         sCategory.getSelectedItem().toString(),
                         Integer.parseInt(eDiscount.getText().toString()),
-                        reference.getId(),
+                        documentReference.getId(),
                         eItemName.getText().toString(),
                         null,
                         Integer.parseInt(ePrice.getText().toString()),
                         sService.getSelectedItemPosition()
                 );
-                reference.document(reference.getId()).set(item).addOnSuccessListener(unused -> {
+                documentReference.set(item).addOnSuccessListener(unused -> {
                     Toast.makeText(this, "Item Added.", Toast.LENGTH_SHORT).show();
                     finish();
                 }).addOnFailureListener(e -> {

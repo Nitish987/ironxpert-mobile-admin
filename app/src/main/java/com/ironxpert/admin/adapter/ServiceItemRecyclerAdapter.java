@@ -73,7 +73,7 @@ public class ServiceItemRecyclerAdapter extends FirestoreRecyclerAdapter<Service
 
         public void setItemDiscount(int itemDiscount) {
             if (itemDiscount == 0) {
-                this.itemDiscount.setVisibility(View.INVISIBLE);
+                this.itemDiscount.setVisibility(View.GONE);
             } else {
                 this.itemDiscount.setVisibility(View.VISIBLE);
                 String discount = itemDiscount + "% OFF";
