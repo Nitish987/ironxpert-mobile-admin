@@ -130,7 +130,8 @@ public class ServiceItemDetailActivity extends AppCompatActivity {
 
             bSave.setVisibility(View.INVISIBLE);
 
-            CollectionReference reference = Database.getInstance().collection("shop").document().collection("items");
+            CollectionReference reference = Database.getInstance().collection("shop").document(LaunderingService.SHOP).collection("items");
+
             if (NEW) {
                 ServiceItem item = new ServiceItem(
                         sItemAvailable.getSelectedItemPosition() == 0,
@@ -177,7 +178,7 @@ public class ServiceItemDetailActivity extends AppCompatActivity {
             alert.setTitle("Delete Item");
             alert.setMessage("Are you sure to delete this item.");
             alert.setPositiveButton("Yes", (dialogInterface, i) -> {
-                Database.getInstance().collection("shop").document().collection("items").document(item.getId()).delete().addOnSuccessListener(unused -> {
+                Database.getInstance().collection("shop").document(LaunderingService.SHOP).collection("items").document(item.getId()).delete().addOnSuccessListener(unused -> {
                     Toast.makeText(this, "Item Deleted.", Toast.LENGTH_SHORT).show();
                     finish();
                 }).addOnFailureListener(e -> {

@@ -40,7 +40,8 @@ public class ServiceRecyclerAdapter extends RecyclerView.Adapter<ServiceRecycler
 
         holder.itemView.setOnClickListener(view -> {
             Intent intent = new Intent(view.getContext(), ServiceItemActivity.class);
-            intent.putExtra("SERVICE", service);
+            intent.putExtra("SERVICE_INDEX", service.getIndex());
+            intent.putExtra("SERVICE_NAME", service.getName());
             view.getContext().startActivity(intent);
         });
     }

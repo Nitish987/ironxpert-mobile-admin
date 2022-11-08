@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.ironxpert.admin.common.auth.Auth;
 import com.ironxpert.admin.common.db.Database;
+import com.ironxpert.admin.common.db.LaunderingService;
 import com.ironxpert.admin.models.User;
 import com.ironxpert.admin.tabs.DispatcherFragment;
 import com.ironxpert.admin.tabs.ServiceFragment;
@@ -74,6 +75,9 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, HelpActivity.class);
             startActivity(intent);
         });
+
+        Thread thread = new Thread(LaunderingService::getServiceList);
+        thread.start();
     }
 
     private void toLoginActivity() {
