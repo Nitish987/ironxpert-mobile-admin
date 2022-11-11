@@ -18,7 +18,7 @@ import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.ironxpert.admin.common.auth.Auth;
-import com.ironxpert.admin.utils.Promise;
+import com.ironxpert.admin.common.db.Database;
 
 import java.util.Objects;
 
@@ -38,7 +38,7 @@ public class MyPhotoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_my_photo);
 
         photo = getIntent().getStringExtra("PHOTO");
-        reference = FirebaseStorage.getInstance().getReference("user");
+        reference = FirebaseStorage.getInstance().getReference("admin");
 
         myPhoto = findViewById(R.id.photo);
         editBtn = findViewById(R.id.edit_photo);
@@ -77,25 +77,17 @@ public class MyPhotoActivity extends AppCompatActivity {
             if (isPhotoPicked) {
                 changePhotoBtn.setVisibility(View.INVISIBLE);
                 StorageReference storageReference = reference.child("profile").child(Objects.requireNonNull(Auth.getAuthUserUid()));
-                storageReference.putFile(Uri.parse(photo)).addOnSuccessListener(taskSnapshot -> storageReference.getDownloadUrl().addOnSuccessListener(uri -> Auth.Account.setProfilePhoto(this, uri.toString(), new Promise<String>() {
-                    @Override
-                    public void resolving(int progress, String msg) {
-                        changePhotoIndicator.setVisibility(View.VISIBLE);
-                    }
+                storageReference.putFile(Uri.parse(photo)).addOnSuccessListener(taskSnapshot -> storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                    Database.getInstance().collection("admin").document(Auth.getAuthUserUid()).update("photo", uri.toString()).addOnSuccessListener(unused -> {
+                        Toast.makeText(this, "Profile pic updated.", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }).addOnFailureListener(e -> {
+                        changePhotoBtn.setVisibility(View.VISIBLE);
+                        changePhotoIndicator.setVisibility(View.INVISIBLE);
 
-                    @Override
-                    public void resolved(String msg) {
-                        Toast.makeText(MyPhotoActivity.this, msg, Toast.LENGTH_SHORT).show();
-                        isPhotoPicked = false;
-                        changePhotoBtn.setVisibility(View.GONE);
-                        changePhotoIndicator.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void reject(String err) {
-                        Toast.makeText(MyPhotoActivity.this, err, Toast.LENGTH_SHORT).show();
-                    }
-                }))).addOnProgressListener(snapshot -> changePhotoIndicator.setVisibility(View.VISIBLE));
+                        Toast.makeText(this, "Unable to update profile pic.", Toast.LENGTH_SHORT).show();
+                    });
+                })).addOnProgressListener(snapshot -> changePhotoIndicator.setVisibility(View.VISIBLE));
             } else {
                 Toast.makeText(this, "Please pick a photo.", Toast.LENGTH_SHORT).show();
             }

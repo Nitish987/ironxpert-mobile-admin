@@ -38,13 +38,7 @@
             android:name=".SelectDeliveryAgentActivity"
             android:exported="false" />
         <activity
-            android:name=".CreateDeliveryAgentActivity"
-            android:exported="false" />
-        <activity
             android:name=".OrderDetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ToppingActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

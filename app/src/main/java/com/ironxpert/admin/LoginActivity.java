@@ -26,10 +26,9 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.ironxpert.admin.MainActivity;
 import com.ironxpert.admin.common.auth.Auth;
 import com.ironxpert.admin.common.db.Database;
-import com.ironxpert.admin.models.User;
+import com.ironxpert.admin.models.AdminUser;
 import com.ironxpert.admin.utils.Promise;
 import com.ironxpert.admin.utils.Validator;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
@@ -165,8 +164,8 @@ public class LoginActivity extends AppCompatActivity {
 
                             @Override
                             public void resolved(Object o) {
-                                Database.getInstance().collection("user").document(user.getUid()).get().addOnSuccessListener(documentSnapshot -> {
-                                    User u = documentSnapshot.toObject(User.class);
+                                Database.getInstance().collection("admin").document(user.getUid()).get().addOnSuccessListener(documentSnapshot -> {
+                                    AdminUser u = documentSnapshot.toObject(AdminUser.class);
                                     if (u.getName() == null || u.getEmail() == null || u.getPhone() == null) {
                                         Intent intent = new Intent(getApplicationContext(), AccountDetailsActivity.class);
                                         intent.putExtra("USER", u);

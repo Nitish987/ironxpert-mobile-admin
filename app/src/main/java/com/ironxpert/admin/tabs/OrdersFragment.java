@@ -58,7 +58,7 @@ public class OrdersFragment extends Fragment {
                     query = FirebaseFirestore.getInstance().collection("orders").whereEqualTo("orderState", 0).whereEqualTo("orderSuccess", true).orderBy("time", Query.Direction.ASCENDING);
                     break;
 
-                case R.id.cooking:
+                case R.id.laundry_in_progress:
                     query = FirebaseFirestore.getInstance().collection("orders").whereEqualTo("orderState", 1).whereEqualTo("orderSuccess", true).orderBy("time", Query.Direction.ASCENDING);
                     break;
 

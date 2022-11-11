@@ -2,17 +2,20 @@ package com.ironxpert.admin.models;
 
 import java.io.Serializable;
 
-public class User implements Serializable {
-    private String email, msgToken, name, phone, photo, uid;
+public class DeliveryUser implements Serializable {
+    private boolean allowed;
+    private String email, msgToken, name, phone, photo, shopId, uid;
 
-    public User() {}
+    public DeliveryUser() {}
 
-    public User(String email, String msgToken, String name, String phone, String photo, String uid) {
+    public DeliveryUser(boolean allowed, String email, String msgToken, String name, String phone, String photo, String shopId, String uid) {
+        this.allowed = allowed;
         this.email = email;
         this.msgToken = msgToken;
         this.name = name;
         this.phone = phone;
         this.photo = photo;
+        this.shopId = shopId;
         this.uid = uid;
     }
 
@@ -62,5 +65,21 @@ public class User implements Serializable {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(String shopId) {
+        this.shopId = shopId;
+    }
+
+    public boolean isAllowed() {
+        return allowed;
+    }
+
+    public void setAllowed(boolean allowed) {
+        this.allowed = allowed;
     }
 }

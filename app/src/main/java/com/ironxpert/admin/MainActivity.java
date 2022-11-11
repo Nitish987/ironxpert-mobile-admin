@@ -11,12 +11,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.ironxpert.admin.common.auth.Auth;
 import com.ironxpert.admin.common.db.Database;
 import com.ironxpert.admin.common.db.LaunderingService;
-import com.ironxpert.admin.models.User;
+import com.ironxpert.admin.models.AdminUser;
 import com.ironxpert.admin.tabs.DispatcherFragment;
 import com.ironxpert.admin.tabs.ServiceFragment;
 import com.ironxpert.admin.tabs.OrdersFragment;
 import com.ironxpert.admin.tabs.ProfileFragment;
-import com.ironxpert.admin.tabs.ToppingsFragment;
 
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView tabs;
@@ -39,8 +38,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Database.getInstance().collection("user").document(Auth.getAuthUserUid()).get().addOnSuccessListener(documentSnapshot -> {
-            User u = documentSnapshot.toObject(User.class);
+        Database.getInstance().collection("admin").document(Auth.getAuthUserUid()).get().addOnSuccessListener(documentSnapshot -> {
+            AdminUser u = documentSnapshot.toObject(AdminUser.class);
             if (u.getName() == null || u.getEmail() == null || u.getPhone() == null) {
                 Intent intent = new Intent(getApplicationContext(), AccountDetailsActivity.class);
                 intent.putExtra("USER", u);
@@ -57,9 +56,6 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.services:
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ServiceFragment()).commit();
-                    break;
-                case R.id.toppings:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ToppingsFragment()).commit();
                     break;
                 case R.id.dispatchers:
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DispatcherFragment()).commit();

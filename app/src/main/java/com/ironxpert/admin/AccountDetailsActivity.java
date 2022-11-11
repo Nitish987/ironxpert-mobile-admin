@@ -15,7 +15,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.ironxpert.admin.common.auth.Auth;
 import com.ironxpert.admin.common.db.Database;
-import com.ironxpert.admin.models.User;
+import com.ironxpert.admin.models.AdminUser;
 import com.ironxpert.admin.utils.Validator;
 
 import java.util.HashMap;
@@ -28,14 +28,14 @@ public class AccountDetailsActivity extends AppCompatActivity {
     private CircularProgressIndicator saveProgress;
 
     private String name, email, phone;
-    private User user;
+    private AdminUser adminUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_details);
 
-        user = (User) getIntent().getSerializableExtra("USER");
+        adminUser = (AdminUser) getIntent().getSerializableExtra("USER");
 
         sectionName = findViewById(R.id.section_name);
         sectionEmail = findViewById(R.id.section_email);
@@ -50,17 +50,17 @@ public class AccountDetailsActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if (user.getName() != null) {
+        if (adminUser.getName() != null) {
             sectionName.setVisibility(View.GONE);
-            name_eTxt.setText(user.getName());
+            name_eTxt.setText(adminUser.getName());
         }
-        if (user.getEmail() != null) {
+        if (adminUser.getEmail() != null) {
             sectionEmail.setVisibility(View.GONE);
-            email_eTxt.setText(user.getEmail());
+            email_eTxt.setText(adminUser.getEmail());
         }
-        if (user.getPhone() != null) {
+        if (adminUser.getPhone() != null) {
             sectionPhone.setVisibility(View.GONE);
-            phone_eTxt.setText(user.getPhone().substring(3));
+            phone_eTxt.setText(adminUser.getPhone().substring(3));
         }
 
         saveBtn.setOnClickListener(view -> {
@@ -101,7 +101,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
             map.put("email", email);
             map.put("phone", "+91" + phone);
 
-            Database.getInstance().collection("user").document(user.getUid()).update(map).addOnSuccessListener(documentSnapshot -> {
+            Database.getInstance().collection("admin").document(adminUser.getUid()).update(map).addOnSuccessListener(documentSnapshot -> {
                 FirebaseUser user = Auth.getInstance().getCurrentUser();
                 UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(name).build();
 

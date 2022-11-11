@@ -1,6 +1,5 @@
 package com.ironxpert.admin.adapter;
 
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,14 +13,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.ironxpert.admin.CreateDeliveryAgentActivity;
 import com.ironxpert.admin.R;
-import com.ironxpert.admin.models.Agent;
+import com.ironxpert.admin.models.DeliveryUser;
 
-public class AgentRecyclerAdapter extends FirestoreRecyclerAdapter<Agent, AgentRecyclerAdapter.AgentHolder> {
+public class AgentRecyclerAdapter extends FirestoreRecyclerAdapter<DeliveryUser, AgentRecyclerAdapter.AgentHolder> {
     private final LinearLayout noDeliveryAgentI;
 
-    public AgentRecyclerAdapter(FirestoreRecyclerOptions<Agent> options, LinearLayout noDeliveryAgentI) {
+    public AgentRecyclerAdapter(FirestoreRecyclerOptions<DeliveryUser> options, LinearLayout noDeliveryAgentI) {
         super(options);
         this.noDeliveryAgentI = noDeliveryAgentI;
     }
@@ -33,19 +31,12 @@ public class AgentRecyclerAdapter extends FirestoreRecyclerAdapter<Agent, AgentR
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull AgentHolder holder, int position, @NonNull Agent model) {
+    protected void onBindViewHolder(@NonNull AgentHolder holder, int position, @NonNull DeliveryUser model) {
         noDeliveryAgentI.setVisibility(View.INVISIBLE);
 
         holder.setPhoto(model.getPhoto());
         holder.setName(model.getName());
         holder.setPhone(model.getPhone());
-
-        holder.itemView.setOnClickListener(view -> {
-            Intent intent = new Intent(view.getContext(), CreateDeliveryAgentActivity.class);
-            intent.putExtra("AGENT", model);
-            intent.putExtra("NEW", false);
-            view.getContext().startActivity(intent);
-        });
     }
 
     public static class AgentHolder extends RecyclerView.ViewHolder {
@@ -69,8 +60,7 @@ public class AgentRecyclerAdapter extends FirestoreRecyclerAdapter<Agent, AgentR
         }
 
         public void setPhone(String phone) {
-            String phone_ = "+91" + phone;
-            this.phone.setText(phone_);
+            this.phone.setText(phone);
         }
     }
 }

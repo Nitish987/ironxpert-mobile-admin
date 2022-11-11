@@ -9,7 +9,7 @@ import com.ironxpert.admin.common.db.Database;
 import com.ironxpert.admin.common.security.AES128;
 import com.ironxpert.admin.common.settings.ApiKey;
 import com.google.firebase.auth.FirebaseAuth;
-import com.ironxpert.admin.models.User;
+import com.ironxpert.admin.models.AdminUser;
 import com.ironxpert.admin.utils.Promise;
 import com.ironxpert.admin.utils.Server;
 
@@ -62,11 +62,11 @@ public class Auth {
     public static class Signup {
         public static void signup(FirebaseUser user, Promise<Object> promise) {
             promise.resolving(0, null);
-            Database.getInstance().collection("user").document(user.getUid()).get().addOnSuccessListener(documentSnapshot -> {
+            Database.getInstance().collection("admin").document(user.getUid()).get().addOnSuccessListener(documentSnapshot -> {
                 if (documentSnapshot.exists()) {
                     promise.resolved(null);
                 } else {
-                    User newUser = new User(
+                    AdminUser newAdminUser = new AdminUser(
                             user.getEmail(),
                             null,
                             user.getDisplayName(),
@@ -74,7 +74,7 @@ public class Auth {
                             null,
                             user.getUid()
                     );
-                    Database.getInstance().collection("user").document(user.getUid()).set(newUser).addOnSuccessListener(unused -> promise.resolved(null)).addOnFailureListener(e -> promise.reject(null));
+                    Database.getInstance().collection("admin").document(user.getUid()).set(newAdminUser).addOnSuccessListener(unused -> promise.resolved(null)).addOnFailureListener(e -> promise.reject(null));
                 }
             }).addOnFailureListener(e -> promise.reject(null));
         }
@@ -83,12 +83,11 @@ public class Auth {
     public static class Login {
         public static void login(Context context, FirebaseUser user, Promise<Object> promise) {
             promise.resolving(0, null);
-            Database.getInstance().collection("user").document(user.getUid()).get().addOnSuccessListener(documentSnapshot -> {
+            Database.getInstance().collection("admin").document(user.getUid()).get().addOnSuccessListener(documentSnapshot -> {
                 if (documentSnapshot.exists()) {
                     Database.getInstance().collection("app").document("account").get().addOnSuccessListener(snap -> {
                         String encKey = AES128.decrypt(AES128.NATIVE_ENCRYPTION_KEY, snap.get("sharedEncKey", String.class));
                         String authToken = AES128.decrypt(AES128.NATIVE_ENCRYPTION_KEY, snap.get("serverToken", String.class));
-                        String payKey = AES128.decrypt(AES128.NATIVE_ENCRYPTION_KEY, snap.get("paymentKey", String.class));
 
                         AuthPreferences preferences = new AuthPreferences(context);
                         preferences.setAuthToken(authToken);
@@ -105,46 +104,7 @@ public class Auth {
         public static void updateMessageToken(String uid, String token) {
             Map<String, Object> map = new HashMap<>();
             map.put("msgToken", token);
-            Database.getInstance().collection("user").document(uid).update(map);
-        }
-    }
-
-    public static class Account {
-        public static void setProfilePhoto(Context context, String photo, Promise<String> promise) {
-            Map<String, String> headers = new HashMap<>();
-            headers.put("RAK", ApiKey.REQUEST_API_KEY);
-            headers.put("AT", Auth.AUTH_TOKEN);
-            headers.put("UID", Auth.getAuthUserUid());
-
-            JSONObject profile = new JSONObject();
-            try {
-                profile.put("photo", photo);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            Server.request(context, Request.Method.POST, ApiKey.REQUEST_API_URL + "account/profile-photo/", headers, profile, new Promise<JSONObject>() {
-                        @Override
-                        public void resolving(int progress, String msg) {
-                            promise.resolving(progress, msg);
-                        }
-
-                        @Override
-                        public void resolved(JSONObject data) {
-                            try {
-                                promise.resolved(data.getString("message"));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                promise.reject("Something went wrong.");
-                            }
-                        }
-
-                        @Override
-                        public void reject(String err) {
-                            promise.reject(err);
-                        }
-                    }
-            );
+            Database.getInstance().collection("admin").document(uid).update(map);
         }
     }
 

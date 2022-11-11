@@ -12,7 +12,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.Query;
 import com.ironxpert.admin.adapter.SelectAgentRecyclerAdapter;
 import com.ironxpert.admin.common.db.Database;
-import com.ironxpert.admin.models.Agent;
+import com.ironxpert.admin.models.DeliveryUser;
 
 public class SelectDeliveryAgentActivity extends AppCompatActivity {
     private RecyclerView agentsRV;
@@ -35,8 +35,8 @@ public class SelectDeliveryAgentActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Query query = Database.getInstance().collection("delivery_user");
-        FirestoreRecyclerOptions<Agent> options = new FirestoreRecyclerOptions.Builder<Agent>().setQuery(query, Agent.class).build();
+        Query query = Database.getInstance().collection("delivery");
+        FirestoreRecyclerOptions<DeliveryUser> options = new FirestoreRecyclerOptions.Builder<DeliveryUser>().setQuery(query, DeliveryUser.class).build();
         SelectAgentRecyclerAdapter adapter = new SelectAgentRecyclerAdapter(options, SelectDeliveryAgentActivity.this, getIntent().getStringExtra("ORDER_ID"), noDeliveryAgentI);
         agentsRV.setAdapter(adapter);
         adapter.startListening();

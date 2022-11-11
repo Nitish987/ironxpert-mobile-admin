@@ -23,7 +23,7 @@ import com.ironxpert.admin.MyPhotoActivity;
 import com.ironxpert.admin.R;
 import com.ironxpert.admin.common.auth.Auth;
 import com.ironxpert.admin.common.auth.AuthPreferences;
-import com.ironxpert.admin.models.User;
+import com.ironxpert.admin.models.AdminUser;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -61,13 +61,13 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        FirebaseFirestore.getInstance().collection("user").document(Objects.requireNonNull(Auth.getAuthUserUid())).get().addOnSuccessListener(documentSnapshot -> {
-            User user = documentSnapshot.toObject(User.class);
+        FirebaseFirestore.getInstance().collection("admin").document(Objects.requireNonNull(Auth.getAuthUserUid())).get().addOnSuccessListener(documentSnapshot -> {
+            AdminUser adminUser = documentSnapshot.toObject(AdminUser.class);
 
-            assert user != null;
-            myNameTxt.setText(user.getName());
-            emailTxt.setText(user.getEmail());
-            if (user.getPhoto() != null) {
+            assert adminUser != null;
+            myNameTxt.setText(adminUser.getName());
+            emailTxt.setText(adminUser.getEmail());
+            if (adminUser.getPhoto() != null) {
                 photo = documentSnapshot.get("photo", String.class);
                 Glide.with(view.getContext()).load(photo).into(myPhoto);
             }

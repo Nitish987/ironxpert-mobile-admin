@@ -33,10 +33,10 @@
             android:checked="true"/>
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/cooking"
+            android:id="@+id/laundry_in_progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/cooking"
+            android:text="@string/in_progress"
             style="@style/Widget.MaterialComponents.Chip.Filter" />
 
         <com.google.android.material.chip.Chip

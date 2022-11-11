@@ -89,7 +89,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
                         android:background="@drawable/round_dark_bg"
-                        android:backgroundTint="@color/light_red"
+                        android:backgroundTint="@color/blackish_blue"
                         android:gravity="center"/>
 
                     <View
@@ -98,13 +98,13 @@
                         android:layout_height="wrap_content"/>
 
                     <TextView
-                        android:id="@+id/cooking_state"
+                        android:id="@+id/laundry_in_progress_state"
                         android:text="@string/_2"
                         android:layout_width="17dp"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
                         android:background="@drawable/round_dark_bg"
-                        android:backgroundTint="@color/light_red"
+                        android:backgroundTint="@color/blackish_blue"
                         android:gravity="center"/>
 
                     <View
@@ -119,7 +119,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
                         android:background="@drawable/round_dark_bg"
-                        android:backgroundTint="@color/light_red"
+                        android:backgroundTint="@color/blackish_blue"
                         android:gravity="center"/>
 
                     <View
@@ -134,7 +134,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
                         android:background="@drawable/round_dark_bg"
-                        android:backgroundTint="@color/light_red"
+                        android:backgroundTint="@color/blackish_blue"
                         android:gravity="center"/>
 
                     <View
@@ -149,7 +149,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
                         android:background="@drawable/round_dark_bg"
-                        android:backgroundTint="@color/light_red"
+                        android:backgroundTint="@color/blackish_blue"
                         android:gravity="center"/>
 
                 </LinearLayout>
@@ -164,7 +164,7 @@
                 android:text="@string/ordered"
                 android:textSize="15sp"
                 android:textStyle="bold"
-                android:textColor="@color/red"/>
+                android:textColor="@color/blue"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

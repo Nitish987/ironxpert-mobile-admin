@@ -21,7 +21,6 @@ import com.ironxpert.admin.common.auth.Auth;
 import com.ironxpert.admin.models.CartItem;
 import com.ironxpert.admin.models.CheckoutCartItem;
 import com.ironxpert.admin.models.Order;
-import com.ironxpert.admin.models.Topping;
 import com.ironxpert.admin.utils.DateParser;
 import com.ironxpert.admin.utils.Promise;
 
@@ -37,7 +36,7 @@ public class OrderDetailActivity extends AppCompatActivity {
     private TextView itemsTxt, orderNumberTxt, totalCartPriceTxt, deliveryCartPriceTxt, totalPayableTxt, nameTxt, phoneTxt, addressTxt, agentNameTxt, agentPhoneTxt, timeTxt, paymentMethodTxt;
     private AppCompatButton cancelOrderBtn, acceptOrderBtn;
     private LinearProgressIndicator orderStateIndicator;
-    private TextView orderedStateTxt, orderedState, cookingState, dispatchedState, onWayState, deliveredState;
+    private TextView orderedStateTxt, orderedState, laundryInProgressState, dispatchedState, onWayState, deliveredState;
     private LinearLayout deliveryAgentDesk;
 
     private String orderId, to, toAgent;
@@ -67,7 +66,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         orderStateIndicator = findViewById(R.id.order_state_indicator);
         orderedStateTxt = findViewById(R.id.order_state_text);
         orderedState = findViewById(R.id.ordered_state);
-        cookingState = findViewById(R.id.cooking_state);
+        laundryInProgressState = findViewById(R.id.laundry_in_progress_state);
         dispatchedState = findViewById(R.id.dispatched_state);
         onWayState = findViewById(R.id.on_way_state);
         deliveredState = findViewById(R.id.delivered_state);
@@ -101,7 +100,7 @@ public class OrderDetailActivity extends AppCompatActivity {
                 String tp_ = "\u20B9 " + order.getPayablePrice();
                 totalPayableTxt.setText(tp_);
 
-                String c_ = order.getItems().size() + " Food Items";
+                String c_ = order.getItems().size() + " Laundry Items";
                 itemsTxt.setText(c_);
 
                 String o_ = "#~order~" + order.getOrderNumber();
@@ -128,31 +127,31 @@ public class OrderDetailActivity extends AppCompatActivity {
                 switch (order.getOrderState()) {
                     case 0:
                         orderStateIndicator.setProgressCompat(0, true);
-                        orderedState.getBackground().setTint(getColor(R.color.red));
+                        orderedState.getBackground().setTint(getColor(R.color.blue));
                         break;
                     case 1:
                         orderStateIndicator.setProgressCompat(25, true);
-                        orderedState.getBackground().setTint(getColor(R.color.red));
-                        cookingState.getBackground().setTint(getColor(R.color.red));
+                        orderedState.getBackground().setTint(getColor(R.color.blue));
+                        laundryInProgressState.getBackground().setTint(getColor(R.color.blue));
 
                         acceptOrderBtn.setVisibility(View.GONE);
                         acceptOrderBtn.setEnabled(false);
                         break;
                     case 2:
                         orderStateIndicator.setProgressCompat(50, true);
-                        orderedState.getBackground().setTint(getColor(R.color.red));
-                        cookingState.getBackground().setTint(getColor(R.color.red));
-                        dispatchedState.getBackground().setTint(getColor(R.color.red));
+                        orderedState.getBackground().setTint(getColor(R.color.blue));
+                        laundryInProgressState.getBackground().setTint(getColor(R.color.blue));
+                        dispatchedState.getBackground().setTint(getColor(R.color.blue));
 
                         acceptOrderBtn.setVisibility(View.GONE);
                         acceptOrderBtn.setEnabled(false);
                         break;
                     case 3:
                         orderStateIndicator.setProgressCompat(75, true);
-                        orderedState.getBackground().setTint(getColor(R.color.red));
-                        cookingState.getBackground().setTint(getColor(R.color.red));
-                        dispatchedState.getBackground().setTint(getColor(R.color.red));
-                        onWayState.getBackground().setTint(getColor(R.color.red));
+                        orderedState.getBackground().setTint(getColor(R.color.blue));
+                        laundryInProgressState.getBackground().setTint(getColor(R.color.blue));
+                        dispatchedState.getBackground().setTint(getColor(R.color.blue));
+                        onWayState.getBackground().setTint(getColor(R.color.blue));
 
                         deliveryAgentDesk.setEnabled(false);
 
@@ -164,11 +163,11 @@ public class OrderDetailActivity extends AppCompatActivity {
                         break;
                     case 4:
                         orderStateIndicator.setProgressCompat(100, true);
-                        orderedState.getBackground().setTint(getColor(R.color.red));
-                        cookingState.getBackground().setTint(getColor(R.color.red));
-                        dispatchedState.getBackground().setTint(getColor(R.color.red));
-                        onWayState.getBackground().setTint(getColor(R.color.red));
-                        deliveredState.getBackground().setTint(getColor(R.color.red));
+                        orderedState.getBackground().setTint(getColor(R.color.blue));
+                        laundryInProgressState.getBackground().setTint(getColor(R.color.blue));
+                        dispatchedState.getBackground().setTint(getColor(R.color.blue));
+                        onWayState.getBackground().setTint(getColor(R.color.blue));
+                        deliveredState.getBackground().setTint(getColor(R.color.blue));
 
                         if (order.getSecureNumber() != null) {
                             deliveredState.getBackground().setTint(getColor(R.color.light_red));
@@ -276,16 +275,8 @@ public class OrderDetailActivity extends AppCompatActivity {
     private List<CheckoutCartItem> createOrderItemList(List<CartItem> items) {
         List<CheckoutCartItem> checkoutCartItems = new ArrayList<>();
         for (CartItem cartItem : items) {
-            StringBuilder orderName = new StringBuilder();
-            orderName.append(cartItem.getFood_data().getName()).append("(").append(cartItem.getQuantity()).append(")");
-            if (!cartItem.getTopping_ids().equals("None")) {
-                orderName.append(" + Toppings(");
-                for (Topping topping : cartItem.getToppings()) {
-                    orderName.append(topping.getName()).append(", ");
-                }
-                orderName.replace(orderName.length() - 2, orderName.length(), ")");
-            }
-            CheckoutCartItem item = new CheckoutCartItem(orderName.toString(), cartItem.getTotal_price());
+            String orderName = cartItem.getServiceItem().getName() + " (" + cartItem.getQuantity() + ")";
+            CheckoutCartItem item = new CheckoutCartItem(orderName, cartItem.getTotalPrice());
             checkoutCartItems.add(item);
         }
         return checkoutCartItems;
@@ -293,18 +284,12 @@ public class OrderDetailActivity extends AppCompatActivity {
 
     private String getOrderStateTxt(int state) {
         switch (state) {
-            case 0:
-                return "Ordered...";
-            case 1:
-                return "Cooking...";
-            case 2:
-                return "Dispatched...";
-            case 3:
-                return "On way...";
-            case 4:
-                return "Delivered...";
-            default:
-                return "";
+            case 0: return  "Ordered...";
+            case 1: return  "Laundry in progress...";
+            case 2: return  "Dispatched...";
+            case 3: return  "On way...";
+            case 4: return  "Delivered...";
+            default: return "";
         }
     }
 }
