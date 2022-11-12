@@ -69,7 +69,7 @@ public class SelectAgentRecyclerAdapter extends FirestoreRecyclerAdapter<Deliver
         }
 
         public void setPhoto(String photo) {
-            if (!photo.equals(""))
+            if (photo != null)
                 Glide.with(this.photo.getContext()).load(photo).into(this.photo);
         }
 

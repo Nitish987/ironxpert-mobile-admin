@@ -214,7 +214,7 @@ public class OrderDetailActivity extends AppCompatActivity {
                 Map<String, Object> map = new HashMap<>();
                 map.put("orderState", 1);
                 FirebaseFirestore.getInstance().collection("orders").document(orderId).update(map).addOnSuccessListener(unused -> {
-                    Auth.Notify.pushNotification(this, to, "Order Preparing", "We are cooking you food be ready.", new Promise<String>() {
+                    Auth.Notify.pushNotification(this, to, "Order Preparing", "We are preparing laundry for your items.", "customer", new Promise<String>() {
                         @Override
                         public void resolving(int progress, String msg) {}
 
@@ -226,7 +226,7 @@ public class OrderDetailActivity extends AppCompatActivity {
                         @Override
                         public void reject(String err) {}
                     });
-                    Auth.Notify.pushNotification(this, toAgent, "New Order", "You are assigned with a new order.", new Promise<String>() {
+                    Auth.Notify.pushNotification(this, toAgent, "New Order", "You are assigned with a new order.", "delivery", new Promise<String>() {
                         @Override
                         public void resolving(int progress, String msg) {}
 
@@ -251,7 +251,7 @@ public class OrderDetailActivity extends AppCompatActivity {
                 Map<String, Object> map = new HashMap<>();
                 map.put("orderSuccess", false);
                 FirebaseFirestore.getInstance().collection("orders").document(orderId).update(map).addOnSuccessListener(unused -> {
-                    Auth.Notify.pushNotification(this, to, "Order Canceled", "Your order was canceled.", new Promise<String>() {
+                    Auth.Notify.pushNotification(this, to, "Order Canceled", "Your order was canceled.", "customer", new Promise<String>() {
                         @Override
                         public void resolving(int progress, String msg) {}
 

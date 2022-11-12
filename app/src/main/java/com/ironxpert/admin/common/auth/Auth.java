@@ -37,20 +37,6 @@ public class Auth {
         return null;
     }
 
-    public static String getAuthUserEmail() {
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            return FirebaseAuth.getInstance().getCurrentUser().getEmail();
-        }
-        return null;
-    }
-
-    public static String getAuthUserName() {
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            return FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-        }
-        return null;
-    }
-
     public static FirebaseAuth getInstance() {
         return FirebaseAuth.getInstance();
     }
@@ -109,17 +95,19 @@ public class Auth {
     }
 
     public static class Notify {
-        public static void pushNotification(Context context, String to, String title, String body, Promise<String> promise) {
+        public static void pushNotification(Context context, String to, String title, String body, String userType, Promise<String> promise) {
             Map<String, String> headers = new HashMap<>();
             headers.put("RAK", ApiKey.REQUEST_API_KEY);
             headers.put("AT", Auth.AUTH_TOKEN);
             headers.put("UID", Auth.getAuthUserUid());
+            headers.put("MYTYPE", "admin");
 
             JSONObject notification = new JSONObject();
             try {
                 notification.put("uid", to);
                 notification.put("title", title);
                 notification.put("body", body);
+                notification.put("userType", userType);
             } catch (JSONException e) {
                 promise.reject("unable to Login.");
                 e.printStackTrace();
